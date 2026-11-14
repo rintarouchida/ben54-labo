@@ -1,5 +1,7 @@
 # 弁護士検索システム
 
+[![CI](https://github.com/rintarouchida/ben54-labo/actions/workflows/ci.yml/badge.svg)](https://github.com/rintarouchida/ben54-labo/actions/workflows/ci.yml)
+
 都道府県・取扱分野・キーワードで弁護士を検索できるSPA。要件は [ben54-labo.md](ben54-labo.md) を参照。
 
 | 区分 | 技術 |

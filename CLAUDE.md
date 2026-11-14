@@ -31,6 +31,8 @@ docker compose exec api ./vendor/bin/pint                        # PHP の整形
 cd frontend && npm run lint && npm run format && npm run build
 ```
 
+GitHub Actions(`.github/workflows/ci.yml`)が全ブランチへの push で、Pint の整形チェック・全テスト・カバレッジ80%以上と、フロントの ESLint・Prettier の整形チェック(`npm run format:check`)・ビルドを実行する。push 前に同じコマンドを手元で通しておくこと。
+
 `artisan` / `composer` / テストは `api` コンテナ内で実行する。`.env` は `DB_HOST=db` で、この名前は compose のネットワーク内でしか解決できないため、ホストで `php artisan` を実行すると `getaddrinfo for db failed` になる(回避するなら先頭に `DB_HOST=127.0.0.1` を付ける)。
 
 `front` コンテナの `node_modules` は名前付きボリュームに置いている(Linux 用バイナリ)。ホストの `frontend/node_modules` とは別物。`backend/composer.json` は `config.platform.php` を 8.4 に固定しており、ホストの composer(PHP 8.5)でもコンテナの PHP に合わせて依存を解決する。
