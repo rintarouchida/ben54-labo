@@ -168,6 +168,17 @@ class LawyerSearchApiTest extends TestCase
         $this->assertSame([$both->id], $this->ids($this->search(['keyword' => "山田\u{3000}相続"])->assertOk()));
     }
 
+    public function test_search_キーワードの前後と語の間に空白が続く_空白を無視して検索する(): void
+    {
+        $office = $this->office();
+        $target = Lawyer::factory()->for($office)->create(['name' => '山田 太郎', 'introduction' => '相続が得意です。']);
+        Lawyer::factory()->for($office)->create(['name' => '佐藤 花子', 'introduction' => '離婚が得意です。']);
+
+        $response = $this->search(['keyword' => "\u{3000} 山田 \u{3000}\u{3000}相続 "]);
+
+        $this->assertSame([$target->id], $this->ids($response->assertOk()));
+    }
+
     public function test_search_3条件をすべて指定_すべてを満たす弁護士だけを返す(): void
     {
         $tokyo = Prefecture::factory()->create(['id' => 13, 'name' => '東京都']);
