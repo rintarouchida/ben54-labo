@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## プロジェクト概要
 
-弁護士検索SPA(転職活動用ポートフォリオ)。機能・API仕様・DB設計・必須テストケースは要件定義書 `ben54-labo.md` が唯一の正とする。実装前に該当する章を必ず読むこと。
+弁護士検索SPA(ポートフォリオ)。機能・API仕様・DB設計・必須テストケースは要件定義書 `ben54-labo.md` が唯一の正とする。実装前に該当する章を必ず読むこと。
 
 作業は `docs/` 配下の連番チケットに分割している(一覧は `docs/README.md`)。各チケットには Todo のチェックリストがあり、Todo を終えたら同じ変更の中で `- [ ]` を `- [x]` にする。
 
