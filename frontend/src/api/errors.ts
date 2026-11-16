@@ -48,3 +48,18 @@ export function pickFieldErrors(
     .flatMap(([, list]) => list)
   return [...new Set(messages)]
 }
+
+/**
+ * 画面上部にまとめて出すエラー(500・通信エラーなど)か。
+ * 404 は SCR-03、422 は項目の近くに出すため含めない(F-16, F-18)
+ */
+export function isBannerError(error: unknown): boolean {
+  if (error === null || error === undefined) return false
+  const status = getErrorStatus(error)
+  return status !== 404 && status !== 422
+}
+
+/** 画面上部に出すメッセージを、重複を除いて返す */
+export function getBannerMessages(errors: unknown[]): string[] {
+  return [...new Set(errors.filter(isBannerError).map(getErrorMessage))]
+}

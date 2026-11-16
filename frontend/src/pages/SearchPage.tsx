@@ -1,12 +1,15 @@
 import { useMemo, useRef } from 'react'
 import { useSearchParams } from 'react-router'
 import {
-  getErrorMessage,
+  getBannerMessages,
   getValidationErrors,
+  isBannerError,
   pickFieldErrors,
 } from '../api/errors'
 import { useLawyers } from '../api/lawyers'
+import { usePracticeAreas, usePrefectures } from '../api/masters'
 import { DummyDataNotice } from '../components/DummyDataNotice'
+import { ErrorBanner } from '../components/ErrorBanner'
 import { SearchForm } from '../components/SearchForm'
 import { SearchResults } from '../components/SearchResults'
 import type { SortType } from '../types/api'
@@ -28,6 +31,18 @@ export function SearchPage() {
   const params = useMemo(() => parseSearchQuery(searchParams), [searchParams])
   const lawyers = useLawyers(params)
   const validationErrors = getValidationErrors(lawyers.error)
+  // フォームの選択肢と同じキャッシュを使うため、追加のリクエストは発生しない
+  const prefectures = usePrefectures()
+  const practiceAreas = usePracticeAreas()
+
+  // 500・通信エラーは画面上部にまとめて出し、失敗した取得だけをやり直せるようにする
+  const failedQueries = [lawyers, prefectures, practiceAreas].filter((query) =>
+    isBannerError(query.error),
+  )
+  const bannerMessages = getBannerMessages(failedQueries.map((q) => q.error))
+  function retryFailed() {
+    failedQueries.forEach((query) => void query.refetch())
+  }
   const resultsRef = useRef<HTMLElement>(null)
 
   // 入力欄がない page の422は結果の上に出す
@@ -51,6 +66,7 @@ export function SearchPage() {
 
   return (
     <div className="space-y-8">
+      <ErrorBanner messages={bannerMessages} onRetry={retryFailed} />
       <section className="space-y-4">
         <h1 className="text-2xl font-bold">弁護士を探す</h1>
         <DummyDataNotice />
@@ -79,15 +95,6 @@ export function SearchPage() {
             ))}
           </ul>
         )}
-        {lawyers.isError && !validationErrors && (
-          <p
-            role="alert"
-            className="rounded border border-red-300 bg-red-50 p-3 text-red-700"
-          >
-            {getErrorMessage(lawyers.error)}
-          </p>
-        )}
-
         {/* 422 でもソートの入力欄は出し、sort のエラーをその近くに表示する */}
         {(!lawyers.isError || validationErrors) && (
           <SearchResults

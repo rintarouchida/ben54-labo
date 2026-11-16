@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { getErrorMessage, pickFieldErrors } from '../api/errors'
+import { pickFieldErrors } from '../api/errors'
 import { usePracticeAreas, usePrefectures } from '../api/masters'
 import type { SearchFormValues } from '../types/search'
 import { FieldError } from './FieldError'
@@ -146,7 +146,7 @@ function PrefectureSelect({
       </select>
       {prefectures.isError && (
         <p className="mt-1 text-sm text-red-700">
-          都道府県を取得できませんでした。{getErrorMessage(prefectures.error)}
+          都道府県の選択肢を取得できませんでした。
         </p>
       )}
       <FieldError id="prefecture-error" messages={errors} />
@@ -177,8 +177,7 @@ function PracticeAreaCheckboxes({
       )}
       {practiceAreas.isError && (
         <p className="mt-2 text-sm text-red-700">
-          取扱分野を取得できませんでした。
-          {getErrorMessage(practiceAreas.error)}
+          取扱分野の選択肢を取得できませんでした。
         </p>
       )}
       {practiceAreas.isSuccess && (

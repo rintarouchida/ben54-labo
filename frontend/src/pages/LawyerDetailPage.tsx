@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react'
 import { Link, useLocation, useParams } from 'react-router'
-import { getErrorMessage, isNotFoundError } from '../api/errors'
+import { getBannerMessages, isNotFoundError } from '../api/errors'
 import { useLawyer } from '../api/lawyers'
+import { ErrorBanner } from '../components/ErrorBanner'
 import type { LawyerDetail } from '../types/api'
 import { NotFoundPage } from './NotFoundPage'
 
@@ -38,6 +39,10 @@ function LawyerDetailContent({ id }: { id: number }) {
 
   return (
     <div className="space-y-6">
+      <ErrorBanner
+        messages={getBannerMessages([lawyer.error])}
+        onRetry={() => void lawyer.refetch()}
+      />
       <Link
         to={backTo}
         className="inline-flex items-center gap-1 text-blue-700 hover:text-blue-500 hover:underline"
@@ -46,14 +51,6 @@ function LawyerDetailContent({ id }: { id: number }) {
       </Link>
 
       {lawyer.isPending && <DetailSkeleton />}
-      {lawyer.isError && (
-        <p
-          role="alert"
-          className="rounded border border-red-300 bg-red-50 p-3 text-red-700"
-        >
-          {getErrorMessage(lawyer.error)}
-        </p>
-      )}
       {lawyer.isSuccess && <LawyerProfile lawyer={lawyer.data} />}
     </div>
   )
