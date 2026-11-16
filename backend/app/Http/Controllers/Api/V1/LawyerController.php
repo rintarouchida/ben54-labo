@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchLawyerRequest;
 use App\Http\Resources\LawyerCollection;
+use App\Http\Resources\LawyerDetailResource;
 use App\Services\LawyerSearchService;
 
 class LawyerController extends Controller
@@ -26,5 +27,13 @@ class LawyerController extends Controller
 
         // links の URL に検索条件とソートを引き継ぐ
         return new LawyerCollection($lawyers->withQueryString());
+    }
+
+    /**
+     * API-02 弁護士1件の詳細を返す。存在しない ID は 404(bootstrap/app.php で変換)
+     */
+    public function show(int $id, LawyerSearchService $service): LawyerDetailResource
+    {
+        return new LawyerDetailResource($service->find($id));
     }
 }

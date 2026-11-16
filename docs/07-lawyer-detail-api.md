@@ -11,8 +11,8 @@
 - 存在しない ID・数値でない ID は404と日本語メッセージを返す
 
 ## Todo
-- [ ] LawyerDetailResource(生年月日・登録年・経歴・自己紹介・事務所住所・電話番号を含む)
-- [ ] LawyerController@show とルート(id は数値のみ)
-- [ ] 404 時の `{ "message": "弁護士が見つかりません。" }`
-- [ ] Feature テスト: 存在する ID で5.3節の全項目を返す
-- [ ] Feature テスト: 存在しない ID・数値でない ID で404と日本語 message
+- [x] LawyerDetailResource(生年月日・登録年・経歴・自己紹介・事務所住所・電話番号を含む)
+- [x] LawyerController@show とルート(id は数値のみ)
+- [x] 404 時の `{ "message": "弁護士が見つかりません。" }`
+- [x] Feature テスト: 存在する ID で5.3節の全項目を返す
+- [x] Feature テスト: 存在しない ID・数値でない ID で404と日本語 message

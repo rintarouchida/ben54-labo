@@ -10,6 +10,7 @@ use App\Models\Lawyer;
 use App\Models\PracticeArea;
 use App\Models\Prefecture;
 use App\Services\LawyerSearchService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -129,6 +130,25 @@ class LawyerSearchServiceTest extends TestCase
         $this->assertSame([], $result->items());
         $this->assertSame(8, $result->total());
         $this->assertSame(2, $result->currentPage());
+    }
+
+    public function test_find_存在するID_関連データ込みで返す(): void
+    {
+        $id = Lawyer::query()->orderBy('id')->value('id');
+
+        $lawyer = $this->service->find($id);
+
+        $this->assertSame($id, $lawyer->id);
+        $this->assertTrue($lawyer->relationLoaded('lawOffice'));
+        $this->assertTrue($lawyer->lawOffice->relationLoaded('prefecture'));
+        $this->assertTrue($lawyer->relationLoaded('practiceAreas'));
+    }
+
+    public function test_find_存在しないID_ModelNotFoundExceptionを投げる(): void
+    {
+        $this->expectException(ModelNotFoundException::class);
+
+        $this->service->find((int) Lawyer::query()->max('id') + 1);
     }
 
     public function test_search_1ページの件数_20件で区切る(): void
