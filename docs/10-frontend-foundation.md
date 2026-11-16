@@ -11,10 +11,10 @@
 - API から都道府県・分野を取得して表示できる
 
 ## Todo
-- [ ] `src/pages` `src/components` `src/api` `src/types` を作る
-- [ ] React Router 7 で SCR-01 / SCR-02 / SCR-03 のルートを定義
-- [ ] TanStack Query の QueryClient を設定
-- [ ] axios クライアント(ベースURL `/api/v1`)
-- [ ] API レスポンスの型定義(一覧・詳細・マスター・エラー)
-- [ ] API 呼び出し関数とフック(lawyers / lawyer / prefectures / practiceAreas)
-- [ ] 共通レイアウト(ヘッダー)
+- [x] `src/pages` `src/components` `src/api` `src/types` を作る
+- [x] React Router 7 で SCR-01 / SCR-02 / SCR-03 のルートを定義
+- [x] TanStack Query の QueryClient を設定
+- [x] axios クライアント(ベースURL `/api/v1`)
+- [x] API レスポンスの型定義(一覧・詳細・マスター・エラー)
+- [x] API 呼び出し関数とフック(lawyers / lawyer / prefectures / practiceAreas)
+- [x] 共通レイアウト(ヘッダー)
