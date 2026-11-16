@@ -49,7 +49,7 @@ export function Pagination({
       to={{ search: searchForPage(page) }}
       onClick={onNavigate}
       aria-label={label}
-      className="flex h-10 min-w-10 items-center justify-center rounded border border-gray-300 bg-white px-3 text-sm hover:bg-blue-50"
+      className="flex h-10 min-w-9 items-center justify-center rounded border border-gray-300 bg-white px-2 text-sm hover:bg-blue-50 sm:min-w-10 sm:px-3"
     >
       {children}
     </Link>
@@ -57,7 +57,7 @@ export function Pagination({
   const disabled = (children: ReactNode) => (
     <span
       aria-disabled="true"
-      className="flex h-10 min-w-10 items-center justify-center rounded border border-gray-200 px-3 text-sm text-gray-400"
+      className="flex h-10 min-w-9 items-center justify-center rounded border border-gray-200 px-2 text-sm text-gray-400 sm:min-w-10 sm:px-3"
     >
       {children}
     </span>
@@ -65,7 +65,7 @@ export function Pagination({
 
   return (
     <nav aria-label="ページ切り替え" className="flex justify-center">
-      <ul className="flex flex-wrap items-center justify-center gap-1.5">
+      <ul className="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5">
         <li>
           {currentPage > 1
             ? pageLink(currentPage - 1, '前へ', '前のページ')
@@ -77,7 +77,7 @@ export function Pagination({
               {item === currentPage ? (
                 <span
                   aria-current="page"
-                  className="flex h-10 min-w-10 items-center justify-center rounded bg-blue-700 px-3 text-sm font-bold text-white"
+                  className="flex h-10 min-w-9 items-center justify-center rounded bg-blue-700 px-2 text-sm font-bold text-white sm:min-w-10 sm:px-3"
                 >
                   {item}
                 </span>
@@ -86,7 +86,11 @@ export function Pagination({
               )}
             </li>
           ) : (
-            <li key={item} aria-hidden="true" className="px-1 text-gray-500">
+            <li
+              key={item}
+              aria-hidden="true"
+              className="px-0.5 text-gray-500 sm:px-1"
+            >
               …
             </li>
           ),

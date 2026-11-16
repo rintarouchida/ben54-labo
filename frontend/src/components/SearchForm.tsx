@@ -93,14 +93,14 @@ export function SearchForm({
       <div className="flex gap-3">
         <button
           type="submit"
-          className="rounded bg-blue-700 px-6 py-2 font-bold text-white hover:bg-blue-600"
+          className="flex-1 rounded bg-blue-700 px-6 py-2.5 font-bold text-white hover:bg-blue-600 sm:flex-none"
         >
           検索
         </button>
         <button
           type="button"
           onClick={onClear}
-          className="rounded border border-gray-300 bg-white px-6 py-2 hover:bg-gray-100"
+          className="flex-1 rounded border border-gray-300 bg-white px-6 py-2.5 hover:bg-gray-100 sm:flex-none"
         >
           クリア
         </button>
@@ -181,11 +181,14 @@ function PracticeAreaCheckboxes({
         </p>
       )}
       {practiceAreas.isSuccess && (
-        <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3 md:grid-cols-4">
+        <div className="mt-1 grid grid-cols-2 gap-x-4 sm:grid-cols-3 sm:gap-y-1 md:grid-cols-4">
           {practiceAreas.data.map((area) => {
             const id = String(area.id)
             return (
-              <label key={area.id} className="flex items-center gap-2">
+              <label
+                key={area.id}
+                className="flex cursor-pointer items-center gap-2 py-2 sm:py-0.5"
+              >
                 <input
                   type="checkbox"
                   value={id}
