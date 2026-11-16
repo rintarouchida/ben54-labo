@@ -11,10 +11,10 @@ API 全体のエラーレスポンスを5.4節の形式に揃え、メッセー�
 - `APP_DEBUG=false` で500のときスタックトレースを返さず、例外をログに残す
 
 ## Todo
-- [ ] `lang/ja/validation.php` と項目名(attributes)の日本語化
-- [ ] 未定義パスの404を JSON で返す
-- [ ] 500時に `{ "message": "サーバーエラーが発生しました。" }` を返し、`storage/logs` に記録する
-- [ ] `throttle:api`(1IPあたり毎分60回)を API 全体にかける
-- [ ] Feature テスト: 未定義のパスで404
-- [ ] Feature テスト: 1分間に61回目のリクエストが429
-- [ ] Feature テスト: 500時にスタックトレースを含まない
+- [x] `lang/ja/validation.php` と項目名(attributes)の日本語化
+- [x] 未定義パスの404を JSON で返す
+- [x] 500時に `{ "message": "サーバーエラーが発生しました。" }` を返し、`storage/logs` に記録する
+- [x] `throttle:api`(1IPあたり毎分60回)を API 全体にかける
+- [x] Feature テスト: 未定義のパスで404
+- [x] Feature テスト: 1分間に61回目のリクエストが429
+- [x] Feature テスト: 500時にスタックトレースを含まない
