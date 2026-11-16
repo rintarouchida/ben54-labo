@@ -6,6 +6,7 @@ import {
   pickFieldErrors,
 } from '../api/errors'
 import { useLawyers } from '../api/lawyers'
+import { DummyDataNotice } from '../components/DummyDataNotice'
 import { SearchForm } from '../components/SearchForm'
 import { SearchResults } from '../components/SearchResults'
 import type { SortType } from '../types/api'
@@ -52,6 +53,7 @@ export function SearchPage() {
     <div className="space-y-8">
       <section className="space-y-4">
         <h1 className="text-2xl font-bold">弁護士を探す</h1>
+        <DummyDataNotice />
         <SearchForm
           // URL が変わったら(検索・クリア・ブラウザバック)フォームを作り直し、URL の条件を入力欄に反映する
           key={searchParams.toString()}
