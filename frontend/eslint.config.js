@@ -24,6 +24,15 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      // XSS 対策(要件定義書 7.4節): React の自動エスケープを迂回する書き方を禁止する
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: "JSXAttribute[name.name='dangerouslySetInnerHTML']",
+          message:
+            'dangerouslySetInnerHTML は使わない(要件定義書 7.4節 XSS 対策)',
+        },
+      ],
     },
   },
 )
