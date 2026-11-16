@@ -43,6 +43,8 @@ class DatabaseSeederTest extends TestCase
 
     public function test_seeder_実行する_年齢と登録年と実績数が定義の範囲に収まる(): void
     {
+        // 生年月日は実行日を基準に作られるため、日付をまたいでも結果が変わらないよう固定する
+        $this->travelTo('2026-04-12 12:00:00');
         $this->seed(DatabaseSeeder::class);
 
         $lawyers = Lawyer::all();
@@ -68,6 +70,8 @@ class DatabaseSeederTest extends TestCase
 
     public function test_seeder_2回実行する_同じデータになる(): void
     {
+        // 1回目と2回目の間に日付が変わると生年月日がずれるため、日時を固定する
+        $this->travelTo('2026-04-12 12:00:00');
         $this->seed(DatabaseSeeder::class);
         $first = $this->snapshot();
 

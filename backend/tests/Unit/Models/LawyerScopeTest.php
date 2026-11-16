@@ -165,7 +165,7 @@ class LawyerScopeTest extends TestCase
 
     // ---- リレーション ----
 
-    public function test_リレーション_弁護士から事務所と都道府県と分野をたどれる(): void
+    public function test_リレーション_弁護士から_事務所と都道府県と分野をたどれる(): void
     {
         $prefecture = Prefecture::factory()->create(['id' => 13, 'name' => '東京都']);
         $office = LawOffice::factory()->for($prefecture)->create();
