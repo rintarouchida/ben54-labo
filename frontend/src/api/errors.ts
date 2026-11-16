@@ -25,6 +25,10 @@ export function getErrorMessage(error: unknown): string {
     if (!error.response) {
       return '通信エラーが発生しました。時間をおいて再度お試しください。'
     }
+    // 429 の message は Laravel 標準の英語("Too Many Attempts.")のため、画面では日本語にする
+    if (error.response.status === 429) {
+      return 'アクセスが集中しています。1分ほど待ってから再度お試しください。'
+    }
     const message = error.response.data?.message
     if (typeof message === 'string' && message !== '') return message
   }
