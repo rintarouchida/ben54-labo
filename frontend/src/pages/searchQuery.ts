@@ -64,3 +64,28 @@ export function buildSearchQuery(
   if (sort) query.set(QUERY_KEYS.sort, sort)
   return query
 }
+
+/** ソートを変えた URL のクエリ文字列。検索条件は引き継ぎ、1ページ目に戻す(F-12) */
+export function withSort(
+  query: URLSearchParams,
+  sort: string,
+): URLSearchParams {
+  const next = new URLSearchParams(query)
+  next.set(QUERY_KEYS.sort, sort)
+  next.delete(QUERY_KEYS.page)
+  return next
+}
+
+/** ページを変えた URL のクエリ文字列。1ページ目は page を付けない */
+export function withPage(
+  query: URLSearchParams,
+  page: number,
+): URLSearchParams {
+  const next = new URLSearchParams(query)
+  if (page <= 1) {
+    next.delete(QUERY_KEYS.page)
+  } else {
+    next.set(QUERY_KEYS.page, String(page))
+  }
+  return next
+}
