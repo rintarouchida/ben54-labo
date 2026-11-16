@@ -1,0 +1,32 @@
+import { isAxiosError } from 'axios'
+import type { ApiErrorBody, ValidationErrorBody } from '../types/api'
+
+/** API が返した HTTP ステータス。通信エラー・タイムアウトなど応答がない場合は null */
+export function getErrorStatus(error: unknown): number | null {
+  return isAxiosError(error) ? (error.response?.status ?? null) : null
+}
+
+export function isNotFoundError(error: unknown): boolean {
+  return getErrorStatus(error) === 404
+}
+
+/** 422 のときだけ項目ごとのエラーメッセージを返す */
+export function getValidationErrors(
+  error: unknown,
+): Record<string, string[]> | null {
+  if (!isAxiosError<ValidationErrorBody>(error)) return null
+  if (error.response?.status !== 422) return null
+  return error.response.data.errors ?? null
+}
+
+/** 画面上部に出すメッセージ。API の message があればそれを使う */
+export function getErrorMessage(error: unknown): string {
+  if (isAxiosError<ApiErrorBody>(error)) {
+    if (!error.response) {
+      return '通信エラーが発生しました。時間をおいて再度お試しください。'
+    }
+    const message = error.response.data?.message
+    if (typeof message === 'string' && message !== '') return message
+  }
+  return 'エラーが発生しました。時間をおいて再度お試しください。'
+}
