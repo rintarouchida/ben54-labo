@@ -45,7 +45,7 @@ function LawyerDetailContent({ id }: { id: number }) {
       />
       <Link
         to={backTo}
-        className="inline-flex items-center gap-1 text-blue-700 hover:text-blue-500 hover:underline"
+        className="-my-2 inline-flex items-center gap-1 py-2 text-blue-700 hover:text-blue-500 hover:underline"
       >
         <span aria-hidden="true">←</span>検索結果に戻る
       </Link>
@@ -110,7 +110,7 @@ function LawyerProfile({ lawyer }: { lawyer: LawyerDetail }) {
         <Item label="電話番号">
           <a
             href={`tel:${office.phone_number}`}
-            className="text-blue-700 hover:text-blue-500 hover:underline"
+            className="-my-2 inline-block py-2 text-blue-700 hover:text-blue-500 hover:underline"
           >
             {office.phone_number}
           </a>

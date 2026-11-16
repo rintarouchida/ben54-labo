@@ -29,6 +29,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    # 初回は composer install が終わってからサーバーが起動する。`docker compose up -d --wait` で待てるよう、ポートが開いたら healthy にする
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@fsockopen('127.0.0.1', 8000) ? 0 : 1);"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 300s
 
   front:
     image: node:22
@@ -44,6 +51,13 @@ services:
       - front-node-modules:/app/node_modules
     depends_on:
       - api
+    # 初回は npm install が終わってから開発サーバーが起動する
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:5173/').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 300s
 
 volumes:
   db-data:

@@ -22,7 +22,7 @@ DB の照合順序は `utf8mb4_0900_ai_ci`(Laravel の初期値 `utf8mb4_unicode
 ## コマンド
 
 ```bash
-docker compose up -d
+docker compose up -d --wait                                     # 初回は composer install / npm install が終わるまで待つ
 docker compose exec api php artisan migrate:fresh --seed
 docker compose exec api php artisan test                         # 全テスト(SQLite ではなく MySQL の lawyer_search_test を使う)
 docker compose exec api php artisan test --filter=test_search_  # 単一テスト / パターン指定
