@@ -10,15 +10,14 @@ import { apiClient } from './client'
 /** 空文字・空配列などの「指定なし」を送らないようにする */
 function compactParams(params: LawyerSearchParams): LawyerSearchParams {
   const result: LawyerSearchParams = {}
-  if (params.prefecture_id !== undefined)
-    result.prefecture_id = params.prefecture_id
+  if (params.prefecture_id) result.prefecture_id = params.prefecture_id
   if (params.practice_area_ids && params.practice_area_ids.length > 0) {
     result.practice_area_ids = params.practice_area_ids
   }
   const keyword = params.keyword?.trim()
   if (keyword) result.keyword = keyword
-  if (params.sort !== undefined) result.sort = params.sort
-  if (params.page !== undefined) result.page = params.page
+  if (params.sort) result.sort = params.sort
+  if (params.page) result.page = params.page
   return result
 }
 

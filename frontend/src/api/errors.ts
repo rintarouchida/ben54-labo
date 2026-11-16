@@ -30,3 +30,17 @@ export function getErrorMessage(error: unknown): string {
   }
   return 'エラーが発生しました。時間をおいて再度お試しください。'
 }
+
+/**
+ * 422 の errors から、指定した項目(配列の要素 `name.0` なども含む)のメッセージを重複なく取り出す
+ */
+export function pickFieldErrors(
+  errors: Record<string, string[]> | null,
+  name: string,
+): string[] {
+  if (!errors) return []
+  const messages = Object.entries(errors)
+    .filter(([key]) => key === name || key.startsWith(`${name}.`))
+    .flatMap(([, list]) => list)
+  return [...new Set(messages)]
+}

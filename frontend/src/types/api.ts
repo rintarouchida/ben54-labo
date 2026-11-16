@@ -87,13 +87,16 @@ export interface LawyerSearchResponse {
 /** ソート種別(5.1節の `sort`) */
 export type SortType = 'case_count' | 'age' | 'name'
 
-/** API-01 のリクエストパラメータ(5.1節)。省略したものは条件なし */
+/**
+ * API-01 のリクエストパラメータ(5.1節)。省略したものは条件なし。
+ * URL のクエリ文字列の値をそのまま渡し、検証は API に任せる(不正な値は422で返り、項目の近くに表示する)
+ */
 export interface LawyerSearchParams {
-  prefecture_id?: number
-  practice_area_ids?: number[]
+  prefecture_id?: string
+  practice_area_ids?: string[]
   keyword?: string
-  sort?: SortType
-  page?: number
+  sort?: string
+  page?: string
 }
 
 /** 404 / 429 / 500 のボディ(5.4節) */
