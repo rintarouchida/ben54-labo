@@ -37,6 +37,26 @@ services:
       retries: 3
       start_period: 300s
 
+  api-py:
+    build: ./docker/python
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./backend-python:/app
+      - api-py-venv:/opt/venv
+      - api-py-uv-cache:/opt/uv-cache
+    depends_on:
+      db:
+        condition: service_healthy
+    # 初回は uv sync(依存の取得)が終わってからサーバーが起動する
+    command: sh -c "uv sync --frozen && uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8001"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/up')"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 300s
+
   front:
     image: node:22
     working_dir: /app
@@ -44,7 +64,8 @@ services:
     ports:
       - "5173:5173"
     environment:
-      API_PROXY_TARGET: http://api:8000
+      # FastAPI 版に切り替えるときは `API_PROXY_TARGET=http://api-py:8001 docker compose up -d front`
+      API_PROXY_TARGET: ${API_PROXY_TARGET:-http://api:8000}
     volumes:
       - ./frontend:/app
       # ホスト(macOS)とコンテナ(Linux)で node_modules のネイティブバイナリが違うため分離する
@@ -62,3 +83,5 @@ services:
 volumes:
   db-data:
   front-node-modules:
+  api-py-venv:
+  api-py-uv-cache:

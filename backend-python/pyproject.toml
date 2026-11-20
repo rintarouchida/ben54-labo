@@ -1,0 +1,77 @@
+[project]
+name = "lawyer-search-api"
+version = "0.1.0"
+description = "弁護士検索API(FastAPI版)"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "alembic>=1.14",
+    "cryptography>=44",          # MySQL 8 の caching_sha2_password 認証に PyMySQL が使う
+    "fastapi>=0.115",
+    "faker>=33",                  # Seeder でも使う
+    "pydantic>=2.10",
+    "pydantic-settings>=2.7",
+    "pymysql>=1.1",
+    "slowapi>=0.1.9",
+    "sqlalchemy>=2.0.36",
+    "uvicorn[standard]>=0.32",
+]
+
+[dependency-groups]
+dev = [
+    "factory-boy>=3.3",
+    "httpx>=0.28",
+    "mypy>=1.13",
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+    "python-dateutil>=2.9",
+    "types-python-dateutil>=2.9",
+    "ruff>=0.8",
+    "time-machine>=2.16",
+]
+
+[tool.uv]
+# アプリとして動かすだけで、パッケージとして配布しない
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "ANN", "RET"]
+
+[tool.ruff.lint.per-file-ignores]
+# Alembic が生成するファイルの形に合わせる
+"migrations/**" = ["ANN"]
+
+[tool.mypy]
+strict = true
+python_version = "3.13"
+plugins = ["pydantic.mypy"]
+exclude = ["^migrations/"]
+
+[[tool.mypy.overrides]]
+# 型情報を持たないライブラリ
+# factory_boy は型が不完全なため、型を見ない(Factory の戻り値は Any になる)
+module = ["factory", "factory.*", "slowapi", "slowapi.*"]
+ignore_missing_imports = true
+follow_imports = "skip"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+filterwarnings = [
+    "error",
+    # Starlette の TestClient が httpx を使うことへの告知。動作には影響しない
+    "ignore:Using `httpx` with `starlette.testclient` is deprecated",
+]
+
+[tool.coverage.run]
+source = ["app"]
+branch = false
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 80
